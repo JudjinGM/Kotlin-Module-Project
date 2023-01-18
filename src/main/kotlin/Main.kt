@@ -1,5 +1,28 @@
 fun main() {
-    // ваш код начнется здесь
-    // вы не должны ограничиваться только классом Main и можете создавать свои классы по необходимости
-    println("Привет")
+
+    val archiveChooseMenu = CommonMenu(MenuType.ARCHIVE)
+
+    archiveChooseMenu.updateMenuMap()
+    archiveChooseMenu.printMenu()
+    archiveChooseMenu.navigateOnMenu(InputType.MENU_CHOOSE)
+
+    if (createChooseArchive == true){
+        archiveCreateMenu = CommonMenu(MenuType.ARCHIVE)
+
+    }
+
+
+
+
+    }
+
+
+
+
 }
+
+
+
+
+
+
