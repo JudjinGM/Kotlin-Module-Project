@@ -1,32 +1,33 @@
 import java.util.*
 
-class CommonMenu(val type: MenuType, ) {
-    private val contentMap: MutableMap<String, Content> = mutableMapOf()
+open class Menu(private val type: MenuType) {
+
+    val contentMap: MutableMap<String, Content> = mutableMapOf()
 
     private var content = ""
+    val menuMap = mutableMapOf<String, () -> Unit>()
 
     init {
         content = when (type) {
             MenuType.ARCHIVE -> "архив"
             MenuType.NOTE -> "заметку"
+
         }
         initMenuMap()
     }
 
-    private val menuMap = mutableMapOf<String, () -> Unit>()
-
-
-    private fun initMenuMap(){
-        when(type){
+    open fun initMenuMap() {
+        when (type) {
             MenuType.ARCHIVE -> {
                 menuMap["Создать $content"] = { createContent() }
                 menuMap["Выход"] = { exitOrBack() }
             }
+
             MenuType.NOTE -> menuMap["Выход"] = { exitOrBack() }
         }
     }
 
-    fun navigateOnMenu(inputType: InputType) {
+    fun navigateOnMenu() {
         val input = readInput(InputType.MENU_CHOOSE).toInt()
         for ((num, string) in menuMap.keys.withIndex()) {
             if (num == input) {
@@ -43,7 +44,8 @@ class CommonMenu(val type: MenuType, ) {
         }
     }
 
-    fun printMenu() {
+    open fun printMenu() {
+        updateMenuMap()
         when (type) {
             MenuType.ARCHIVE -> {
                 println("Выбор архива")
@@ -61,12 +63,12 @@ class CommonMenu(val type: MenuType, ) {
     }
 
     private fun readInput(inputType: InputType): String {
-        var input = ""
+        var input: String
         while (true) {
             input = Scanner(System.`in`).nextLine()
             when (inputType) {
                 InputType.MENU_CHOOSE -> {
-                    if (input.toIntOrNull() != null && input.toInt() in 0..(menuMap.size - 1)) {
+                    if (input.toIntOrNull() != null && input.toInt() in 0 until menuMap.size) {
                         break
                     } else {
                         println("Не правильный ввод, попробуйте еще раз")
@@ -75,17 +77,17 @@ class CommonMenu(val type: MenuType, ) {
                 }
 
                 InputType.MENU_INSIDE -> {
-                    if (input.toIntOrNull() != null && input.toInt() in 0..(contentMap.size - 1)) {
+                    if (input.toIntOrNull() != null && input.toInt() in 0 until contentMap.size) {
                         break
                     } else {
                         println("Не правильный ввод, попробуйте еще раз")
                         continue
                     }
                 }
-                InputType.CONTENT_NAME -> {
+                InputType.TEXT -> {
                     break
                 }
-                InputType.NOTE -> {
+                InputType.MENU_NOTE -> {
                     if (input.toIntOrNull() != null && input.toInt() == 0) {
                         break
                     } else {
@@ -98,44 +100,30 @@ class CommonMenu(val type: MenuType, ) {
         return input
     }
 
-
-    private fun createContent() {
-        var input: String = ""
+    open fun createContent() {
         when (type) {
             MenuType.ARCHIVE -> {
-                if (readInput(InputType.MENU_INSIDE).toInt() == 0) {
-                    input = readInput(InputType.CONTENT_NAME)
-                    contentMap[input] = Archive(input)
-                    println("Создаю архив c именем $input")
-                }
+                val menuCreate = MenuCreate(MenuType.ARCHIVE)
+                menuCreate.printMenu()
+                menuCreate.navigateOnMenu()
+                // чтото явно не то((
+
             }
-
             MenuType.NOTE -> {
-                if (readInput(InputType.MENU_INSIDE).toInt() == 0) {
-                    input = readInput(InputType.CONTENT_NAME)
-                    contentMap[input] = Note(input)
-                    println("Введите текст заметки")
-                    val text = readInput(InputType.CONTENT_NAME)
-                    contentMap[input]
-                    println("Создаю заметку с именем $input")
 
-
-                }
             }
         }
+
+
     }
 
     private fun openContent(string: String) {
-        //нужна реализация
+        //надо придумать реализацию
     }
 
 
-    private fun exitOrBack(): Boolean {
-        return false
-        //нужна реализация
+    private fun exitOrBack() {
+        //надо придумать реализацию
     }
 
-    fun returnContentMap():MutableMap<String, Content>{
-        return contentMap
-    }
 }
