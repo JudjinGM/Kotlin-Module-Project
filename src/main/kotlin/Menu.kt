@@ -2,8 +2,8 @@ import java.util.*
 
 open class Menu(private val type: MenuType) {
 
-    val contentMap: MutableMap<String, Content> = mutableMapOf()
-
+    var contentMap: MutableMap<String, Content> = mutableMapOf()
+    var isWork = true
     private var content = ""
     val menuMap = mutableMapOf<String, () -> Unit>()
 
@@ -11,21 +11,15 @@ open class Menu(private val type: MenuType) {
         content = when (type) {
             MenuType.ARCHIVE -> "архив"
             MenuType.NOTE -> "заметку"
-
         }
         initMenuMap()
     }
 
     open fun initMenuMap() {
-        when (type) {
-            MenuType.ARCHIVE -> {
-                menuMap["Создать $content"] = { createContent() }
-                menuMap["Выход"] = { exitOrBack() }
-            }
-
-            MenuType.NOTE -> menuMap["Выход"] = { exitOrBack() }
-        }
+        menuMap["Создать $content"] = { createContent() }
+        menuMap["Выход"] = { exitOrBack() }
     }
+
 
     fun navigateOnMenu() {
         val input = readInput(InputType.MENU_CHOOSE).toInt()
@@ -62,7 +56,7 @@ open class Menu(private val type: MenuType) {
         }
     }
 
-    private fun readInput(inputType: InputType): String {
+    fun readInput(inputType: InputType): String {
         var input: String
         while (true) {
             input = Scanner(System.`in`).nextLine()
@@ -103,27 +97,37 @@ open class Menu(private val type: MenuType) {
     open fun createContent() {
         when (type) {
             MenuType.ARCHIVE -> {
-                val menuCreate = MenuCreate(MenuType.ARCHIVE)
-                menuCreate.printMenu()
-                menuCreate.navigateOnMenu()
-                // чтото явно не то((
+                val menuCreateArchive = MenuCreateArchive(MenuType.ARCHIVE)
+                menuCreateArchive.printMenu()
+                menuCreateArchive.navigateOnMenu()
+                contentMap = menuCreateArchive.returnContenMap()
 
             }
             MenuType.NOTE -> {
+                val menuCreateNote = MenuCreateNote(MenuType.ARCHIVE)
+                menuCreateNote.printMenu()
+                menuCreateNote.navigateOnMenu()
 
             }
         }
-
-
     }
 
     private fun openContent(string: String) {
+        val menuChooseNote = Menu(MenuType.NOTE)
+
+        while (menuChooseNote.isWork) {
+            menuChooseNote.printMenu()
+            menuChooseNote.navigateOnMenu()
+        }
         //надо придумать реализацию
     }
 
 
     private fun exitOrBack() {
-        //надо придумать реализацию
+        isWork = false
     }
 
+    fun returnContenMap(): MutableMap<String, Content> {
+        return contentMap
+    }
 }
