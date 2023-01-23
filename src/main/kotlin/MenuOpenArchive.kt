@@ -4,7 +4,7 @@ class MenuOpenArchive(private val archiveName: String) : Menu() {
         initMenuMap()
     }
 
-    override val menuName = "[$archiveName]"
+    override val menuName = "Список заметок в [$archiveName]"
 
     private val listOfNotes = DataArchivesAndNotes.getListOfNotesFromArchive(archiveName)
 

@@ -4,7 +4,7 @@ class MenuArchiveChoose : Menu() {
         initMenuMap()
     }
 
-    override val menuName = "Выбор архива"
+    override val menuName = "Cписок архивов"
 
     override fun initMenuMap() {
         menuMap["Создать архив"] = { createMenuArchive() }
