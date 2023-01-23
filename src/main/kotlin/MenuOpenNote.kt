@@ -1,4 +1,4 @@
-class MenuMapOpenNote(archiveName: String, noteName: String) : MenuMap() {
+class MenuOpenNote(archiveName: String, noteName: String) : Menu() {
     init {
         initMenuMap()
     }

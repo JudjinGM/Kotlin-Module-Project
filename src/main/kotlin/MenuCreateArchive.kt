@@ -1,21 +1,21 @@
-class MenuCreateArchive(type: MenuType) : Menu(type) {
+import java.util.*
+
+class MenuCreateArchive : Menu() {
+    init {
+        initMenuMap()
+    }
+
+    override val menuName = "Создать архив"
 
     override fun initMenuMap() {
-        menuMap["Ввод название архива"] = { createArchive() }
-        menuMap["Выход"] = {  }
+        menuMap["Ввести имя нового архива "] = { createArchive() }
+        menuMap["Назад"] = { exitOrBack() }
     }
 
-    override fun printMenu() {
-        updateMenuMap()
-        println("Создать архив")
-        for ((n, string) in menuMap.keys.withIndex()) {
-            println("$n. $string")
-        }
+    private fun createArchive() {
+        println("Введите имя нового архива")
+        val input = Scanner(System.`in`).nextLine()
+        DataArchivesAndNotes.addArchiveToMap(input)
     }
 
-    fun createArchive() {
-        println("Введите название архива")
-        val input = readInput(InputType.TEXT)
-        contentMap[input] = Archive(input)
-    }
 }

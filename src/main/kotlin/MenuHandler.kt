@@ -1,8 +1,8 @@
 import java.util.*
 
-class MenuHandler(menuMap: MenuMap) {
-    private val menuMap: MutableMap<String, () -> Unit> = menuMap.menuMap
-    private val menuName = menuMap.menuName
+class MenuHandler(menu: Menu) {
+    private val menuMap: MutableMap<String, () -> Unit> = menu.menuMap
+    private val menuName = menu.menuName
 
     fun navigateOnMenu() {
         val input = readInputMenu()

@@ -1,25 +1,23 @@
-class MenuCreateNote(type: MenuType):Menu(type) {
-    class MenuCreateArchive(type: MenuType) : Menu(type) {
+import java.util.*
 
-        override fun initMenuMap() {
-            menuMap["Ввод название заметки"] = { createNote() }
-            menuMap["Выход"] = {  }
-        }
-
-        override fun printMenu() {
-            updateMenuMap()
-            println("Создать архив")
-            for ((n, string) in menuMap.keys.withIndex()) {
-                println("$n. $string")
-            }
-        }
-
-        fun createNote() {
-            println("Введите название заметки")
-            val input = readInput(InputType.TEXT)
-            contentMap[input] = Archive(input)
-        }
+class MenuCreateNote(private val archiveName: String) : Menu() {
+    init {
+        initMenuMap()
     }
 
+    override val menuName = "Создать заметку в [$archiveName]"
+
+    override fun initMenuMap() {
+        menuMap["Ввести имя и текст новой заметки"] = { createNote(archiveName) }
+        menuMap["Назад"] = { exitOrBack() }
+    }
+
+    private fun createNote(archiveName: String) {
+        println("Введите имя заметки")
+        val noteName = Scanner(System.`in`).nextLine()
+        println("Введите текст заметки")
+        val noteText = Scanner(System.`in`).nextLine()
+        DataArchivesAndNotes.addNoteToSpecificArchive(archiveName, noteName, noteText)
+    }
 
 }
