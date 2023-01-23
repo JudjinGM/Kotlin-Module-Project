@@ -6,7 +6,7 @@ class MenuOpenArchive(private val archiveName: String) : MenuMap() {
 
     override val menuName = "[$archiveName]"
 
-    val listOfNotes = DataArchivesAndNotes.getListOfNotesFromArchive(archiveName)
+    private val listOfNotes = DataArchivesAndNotes.getListOfNotesFromArchive(archiveName)
 
     override fun initMenuMap() {
         menuMap["Создать заметку"] = { createMenuNote(archiveName) }
@@ -43,8 +43,8 @@ class MenuOpenArchive(private val archiveName: String) : MenuMap() {
         val menuMapOpenNote = MenuMapOpenNote(archiveName, noteName)
         val menuHandlerOpenNote = MenuHandler(menuMapOpenNote)
         while (menuMapOpenNote.isOnMenu) {
-            DataArchivesAndNotes.printSpecificNote(archiveName, noteName)
             menuHandlerOpenNote.printMenu()
+            DataArchivesAndNotes.printSpecificNote(archiveName, noteName)
             menuHandlerOpenNote.navigateOnMenu()
         }
     }
