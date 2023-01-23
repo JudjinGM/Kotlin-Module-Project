@@ -1,3 +1,3 @@
-class Note(val name:String): Content {
-    val notes: String= ""
-}
+data class Note(
+    val name: String, val text: String
+)

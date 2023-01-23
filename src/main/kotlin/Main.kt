@@ -1,15 +1,10 @@
 fun main() {
-    var contentMap: MutableMap<String, Content> = mutableMapOf()
-    val menuChooseArchive = Menu(MenuType.ARCHIVE)
-    while (menuChooseArchive.isWork) {
-        menuChooseArchive.printMenu()
-        menuChooseArchive.navigateOnMenu()
+    val menuArchiveChoose = MenuArchiveChoose()
+    val menuHandlerArchive = MenuHandler(menuArchiveChoose)
+    while (menuArchiveChoose.isOnMenu) {
+        menuArchiveChoose.updateMenuMap()
+//        println ("Выбор архива")
+        menuHandlerArchive.printMenu()
+        menuHandlerArchive.navigateOnMenu()
     }
-
- }
-
-
-
-
-
-
+}
