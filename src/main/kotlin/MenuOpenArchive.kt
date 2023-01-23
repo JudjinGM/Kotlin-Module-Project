@@ -1,4 +1,4 @@
-class MenuOpenArchive(private val archiveName: String) : MenuMap() {
+class MenuOpenArchive(private val archiveName: String) : Menu() {
 
     init {
         initMenuMap()
@@ -40,7 +40,7 @@ class MenuOpenArchive(private val archiveName: String) : MenuMap() {
     }
 
     private fun openMenuNote(noteName: String) {
-        val menuMapOpenNote = MenuMapOpenNote(archiveName, noteName)
+        val menuMapOpenNote = MenuOpenNote(archiveName, noteName)
         val menuHandlerOpenNote = MenuHandler(menuMapOpenNote)
         while (menuMapOpenNote.isOnMenu) {
             menuHandlerOpenNote.printMenu()

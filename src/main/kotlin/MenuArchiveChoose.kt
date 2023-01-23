@@ -1,4 +1,4 @@
-class MenuArchiveChoose : MenuMap() {
+class MenuArchiveChoose : Menu() {
 
     init {
         initMenuMap()

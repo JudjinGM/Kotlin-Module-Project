@@ -1,4 +1,4 @@
-abstract class MenuMap {
+abstract class Menu {
 
     val menuMap: MutableMap<String, () -> Unit> = mutableMapOf()
 
